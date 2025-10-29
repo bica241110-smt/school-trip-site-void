@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fade-In System</title>
+    <style>
+        body {
+            background-color: #fdfdfd;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .fade-in, .fade-in-first {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .fade-in {
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in-first {
+            transition: all 1.2s ease-out;
+        }
+
+            .fade-in.visible, .fade-in-first.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="fade-in-first" style="background:#dff;">
+        ようこそ、修学旅行サイトへ！
+    </section>
+
+    <section class="fade-in" style="background:#ffd;">
+        思い出ギャラリー📸
+    </section>
+
+    <section class="fade-in" style="background:#fdd;">
+        班紹介ページはこちら！
+    </section>
+
+    <section class="fade-in" style="background:#eef; padding:1em;">
+        <label for="destination">次の旅先はどこがいい？</label><br />
+        <input type="text" id="destination" name="destination"
+               placeholder="例:USJ,桜島,銀山温泉など" />
+        <button onclick="submitDestination()">送信</button>
+    </section>
+
+
+
+
+   
+    <script>
+        const fadeElems = document.querySelectorAll('.fade-in, .fade-in-first');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        fadeElems.forEach(el => observer.observe(el));
+
+        // GAS送信処理を追加
+        function submitDestination() {
+            const place = document.getElementById("destination").value;
+            if (place.trim()) {
+                fetch("https://script.google.com/macros/s/AKfycbwfWtaFVzUhNU006rhCmnT1lLGggio0tTtfeLnHlKRF__ztkRHz7bJ3gOT-HNWPrSF5/exec", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: "destination=" + encodeURIComponent(place)
+                })
+                    .then(res => res.text())
+                    .then(text => {
+                        alert("サーバー応答: " + text);
+                    })
+                    .catch(err => {
+                        console.error("送信エラー:", err);
+                        alert("通信エラーが発生しました");
+                    });
+
+            } else {
+                alert("旅先を入力してください！");
+            }
+        }
+    </script>
+
+</body>
+</html>
