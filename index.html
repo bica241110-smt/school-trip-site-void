@@ -15,9 +15,6 @@
         .fade-in, .fade-in-first {
             opacity: 0;
             transform: translateY(30px);
-        }
-
-        .fade-in {
             transition: all 0.8s ease-out;
         }
 
@@ -34,6 +31,7 @@
             padding: 2em 1em;
             box-sizing: border-box;
             display: flex;
+            flex-direction: column;
             margin: 2em auto;
             align-items: center;
             justify-content: center;
@@ -43,25 +41,24 @@
             color: #333;
             background-color: #fff;
             border-radius: 8px;
-            box-shadow: 0 0 10px raba(0,0,0,0,1)
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        @media (max-width: 600px) {
-    section {
-        font-size: 5vw; /* スマホでは少し大きめに */
-    }
-
-            input[type="text"] {
+    input[type="text"] ,
+button{
     width: 100%;
     font-size: 1em;
     padding: 0.5em;
     box-sizing: border-box;
-}
-button {
     margin-top: 0.5em;
-    padding: 0.5em 1em;
-    font-size: 1em;
 }
+        
+        
+
+@media (max-width: 600px) {
+    section {
+        font-size: 1rem;
+    }
 }
     </style>
 </head>
@@ -132,6 +129,7 @@ button {
 
 </body>
 </html>
+
 
 
 
